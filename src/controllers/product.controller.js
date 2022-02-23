@@ -98,6 +98,30 @@ router.get("/handbags", async (req, res) => {
     return res.status(500).send(e.message);
   }
 });
+
+//Low to High
+router.get("/low-high", async (req, res) => {
+  try {
+    const products = await Product.find().sort({ p: 1 }).lean().exec();
+    console.log(products);
+
+    return res.status(201).send(products);
+  } catch (e) {
+    return res.status(500).send(e.message);
+  }
+});
+//high to low
+router.get("/high-low", async (req, res) => {
+  try {
+    const products = await Product.find().sort({ p: -1 }).lean().exec();
+    console.log(products);
+
+    return res.status(201).send(products);
+  } catch (e) {
+    return res.status(500).send(e.message);
+  }
+});
+
 //SHOES API
 router.get("/shoes", async (req, res) => {
   try {
