@@ -25,6 +25,32 @@ router.get("", async (req, res) => {
   }
 });
 
+router.get("/low_high", async (req, res) => {
+  try {
+    let products = await Product.find()
+      .sort({ p: 1 })
+      .populate({ path: "category", select: "name" })
+      .lean()
+      .exec();
+    return res.status(201).send(products);
+  } catch (e) {
+    return res.status(500).send(e.message);
+  }
+});
+
+router.get("/high_low", async (req, res) => {
+  try {
+    let products = await Product.find()
+      .sort({ p: -1 })
+      .populate({ path: "category", select: "name" })
+      .lean()
+      .exec();
+    return res.status(201).send(products);
+  } catch (e) {
+    return res.status(500).send(e.message);
+  }
+});
+
 //Men's
 router.get("/mens", async (req, res) => {
   try {
