@@ -3,6 +3,15 @@ const app = express();
 app.use(express.json());
 const port = process.env.PORT || 7896;
 
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
 const connect = require("./configs/db");
 const categoryController = require("./controllers/category.controller");
 const productController = require("./controllers/product.controller");
