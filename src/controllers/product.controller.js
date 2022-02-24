@@ -69,19 +69,12 @@ router.get("/mens", async (req, res) => {
 //high to low
 router.get("/mens/high_low", async (req, res) => {
   try {
-    const products = await Product.find().sort({ p: -1 }).lean().exec();
-    // console.log(products);
-    let mensArr = [];
-    for (let i = 0; i < products.length; i++) {
-      let cur = products[i];
-      for (j in cur) {
-        if (cur[j] == "men") {
-          mensArr.push(cur);
-        }
-      }
-    }
-
-    return res.status(201).send(mensArr);
+    const products = await Product.find({ type: "men" })
+      .populate({ path: "category", select: "name" })
+      .sort({ p: -1 })
+      .lean()
+      .exec();
+    return res.status(201).send(products);
   } catch (e) {
     return res.status(500).send(e.message);
   }
@@ -90,19 +83,12 @@ router.get("/mens/high_low", async (req, res) => {
 //high to low
 router.get("/mens/low_high", async (req, res) => {
   try {
-    const products = await Product.find().sort({ p: 1 }).lean().exec();
-    // console.log(products);
-    let mensArr = [];
-    for (let i = 0; i < products.length; i++) {
-      let cur = products[i];
-      for (j in cur) {
-        if (cur[j] == "men") {
-          mensArr.push(cur);
-        }
-      }
-    }
-
-    return res.status(201).send(mensArr);
+    const products = await Product.find({ type: "men" })
+      .populate({ path: "category", select: "name" })
+      .sort({ p: 1 })
+      .lean()
+      .exec();
+    return res.status(201).send(products);
   } catch (e) {
     return res.status(500).send(e.message);
   }
@@ -126,19 +112,15 @@ router.get("/womens", async (req, res) => {
 //high to low
 router.get("/womens/high_low", async (req, res) => {
   try {
-    const products = await Product.find().sort({ p: -1 }).lean().exec();
+    const products = await Product.find({ type: "women" })
+      .populate({ path: "category", select: "name" })
+      .sort({ p: -1 })
+      .lean()
+      .exec();
     // console.log(products);
-    let womensArr = [];
-    for (let i = 0; i < products.length; i++) {
-      let cur = products[i];
-      for (j in cur) {
-        if (cur[j] == "men") {
-          womensArr.push(cur);
-        }
-      }
-    }
+    // let womensArr = [];
 
-    return res.status(201).send(womensArr);
+    return res.status(201).send(products);
   } catch (e) {
     return res.status(500).send(e.message);
   }
@@ -147,13 +129,16 @@ router.get("/womens/high_low", async (req, res) => {
 //high to low
 router.get("/womens/low_high", async (req, res) => {
   try {
-    const products = await Product.find().sort({ p: 1 }).lean().exec();
+    const products = await Product.find({ type: "women" })
+      .sort({ p: 1 })
+      .lean()
+      .exec();
     // console.log(products);
     let womensArr = [];
     for (let i = 0; i < products.length; i++) {
       let cur = products[i];
       for (j in cur) {
-        if (cur[j] == "men") {
+        if (cur[j] == "women") {
           womensArr.push(cur);
         }
       }
