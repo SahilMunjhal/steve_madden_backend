@@ -38,6 +38,50 @@ router.get("/mens", async (req, res) => {
   }
 });
 
+//mens Sorting
+
+//high to low
+router.get("/mens/high_low", async (req, res) => {
+  try {
+    const products = await Product.find().sort({ p: -1 }).lean().exec();
+    // console.log(products);
+    let mensArr = [];
+    for (let i = 0; i < products.length; i++) {
+      let cur = products[i];
+      for (j in cur) {
+        if (cur[j] == "men") {
+          mensArr.push(cur);
+        }
+      }
+    }
+
+    return res.status(201).send(mensArr);
+  } catch (e) {
+    return res.status(500).send(e.message);
+  }
+});
+
+//high to low
+router.get("/mens/low_high", async (req, res) => {
+  try {
+    const products = await Product.find().sort({ p: 1 }).lean().exec();
+    // console.log(products);
+    let mensArr = [];
+    for (let i = 0; i < products.length; i++) {
+      let cur = products[i];
+      for (j in cur) {
+        if (cur[j] == "men") {
+          mensArr.push(cur);
+        }
+      }
+    }
+
+    return res.status(201).send(mensArr);
+  } catch (e) {
+    return res.status(500).send(e.message);
+  }
+});
+
 //Women's
 router.get("/womens", async (req, res) => {
   try {
@@ -50,6 +94,51 @@ router.get("/womens", async (req, res) => {
     return res.status(500).send(e.message);
   }
 });
+
+//womens Sorting
+
+//high to low
+router.get("/womens/high_low", async (req, res) => {
+  try {
+    const products = await Product.find().sort({ p: -1 }).lean().exec();
+    // console.log(products);
+    let womensArr = [];
+    for (let i = 0; i < products.length; i++) {
+      let cur = products[i];
+      for (j in cur) {
+        if (cur[j] == "men") {
+          womensArr.push(cur);
+        }
+      }
+    }
+
+    return res.status(201).send(womensArr);
+  } catch (e) {
+    return res.status(500).send(e.message);
+  }
+});
+
+//high to low
+router.get("/womens/low_high", async (req, res) => {
+  try {
+    const products = await Product.find().sort({ p: 1 }).lean().exec();
+    // console.log(products);
+    let womensArr = [];
+    for (let i = 0; i < products.length; i++) {
+      let cur = products[i];
+      for (j in cur) {
+        if (cur[j] == "men") {
+          womensArr.push(cur);
+        }
+      }
+    }
+
+    return res.status(201).send(womensArr);
+  } catch (e) {
+    return res.status(500).send(e.message);
+  }
+});
+
 //CLOTHING API
 router.get("/clothing", async (req, res) => {
   try {
@@ -57,7 +146,7 @@ router.get("/clothing", async (req, res) => {
       .populate({ path: "category", select: "name" })
       .lean()
       .exec();
-    console.log(products);
+    // console.log(products);
     let clothingArr = [];
     for (let i = 0; i < products.length; i++) {
       let cur = products[i];
@@ -74,6 +163,59 @@ router.get("/clothing", async (req, res) => {
     return res.status(500).send(e.message);
   }
 });
+
+//Clothing Sorting
+
+//high to low
+router.get("/clothing/high_low", async (req, res) => {
+  try {
+    const products = await Product.find()
+      .sort({ p: -1 })
+      .populate({ path: "category", select: "name" })
+      .lean()
+      .exec();
+    // console.log(products);
+    let clothingArr = [];
+    for (let i = 0; i < products.length; i++) {
+      let cur = products[i];
+      for (j in cur) {
+        if (cur[j].name == "clothing") {
+          clothingArr.push(cur);
+        }
+      }
+    }
+
+    return res.status(201).send(clothingArr);
+  } catch (e) {
+    return res.status(500).send(e.message);
+  }
+});
+
+//high to low
+router.get("/clothing/low_high", async (req, res) => {
+  try {
+    const products = await Product.find()
+      .sort({ p: 1 })
+      .populate({ path: "category", select: "name" })
+      .lean()
+      .exec();
+    // console.log(products);
+    let clothingArr = [];
+    for (let i = 0; i < products.length; i++) {
+      let cur = products[i];
+      for (j in cur) {
+        if (cur[j].name == "clothing") {
+          clothingArr.push(cur);
+        }
+      }
+    }
+
+    return res.status(201).send(clothingArr);
+  } catch (e) {
+    return res.status(500).send(e.message);
+  }
+});
+
 //HANDBAGS API
 router.get("/handbags", async (req, res) => {
   try {
@@ -81,7 +223,7 @@ router.get("/handbags", async (req, res) => {
       .populate({ path: "category", select: "name" })
       .lean()
       .exec();
-    console.log(products);
+    // console.log(products);
     let handbagArr = [];
     for (let i = 0; i < products.length; i++) {
       let cur = products[i];
@@ -99,24 +241,53 @@ router.get("/handbags", async (req, res) => {
   }
 });
 
-//Low to High
-router.get("/low-high", async (req, res) => {
-  try {
-    const products = await Product.find().sort({ p: 1 }).lean().exec();
-    console.log(products);
+//handbags Sorting
 
-    return res.status(201).send(products);
+//high to low
+router.get("/handbags/high_low", async (req, res) => {
+  try {
+    const products = await Product.find()
+      .sort({ p: -1 })
+      .populate({ path: "category", select: "name" })
+      .lean()
+      .exec();
+    // console.log(products);
+    let handbagsArr = [];
+    for (let i = 0; i < products.length; i++) {
+      let cur = products[i];
+      for (j in cur) {
+        if (cur[j].name == "handbags") {
+          handbagsArr.push(cur);
+        }
+      }
+    }
+
+    return res.status(201).send(handbagsArr);
   } catch (e) {
     return res.status(500).send(e.message);
   }
 });
-//high to low
-router.get("/high-low", async (req, res) => {
-  try {
-    const products = await Product.find().sort({ p: -1 }).lean().exec();
-    console.log(products);
 
-    return res.status(201).send(products);
+//high to low
+router.get("/handbags/low_high", async (req, res) => {
+  try {
+    const products = await Product.find()
+      .sort({ p: 1 })
+      .populate({ path: "category", select: "name" })
+      .lean()
+      .exec();
+    // console.log(products);
+    let handbagsArr = [];
+    for (let i = 0; i < products.length; i++) {
+      let cur = products[i];
+      for (j in cur) {
+        if (cur[j].name == "handbags") {
+          handbagsArr.push(cur);
+        }
+      }
+    }
+
+    return res.status(201).send(handbagsArr);
   } catch (e) {
     return res.status(500).send(e.message);
   }
@@ -129,7 +300,7 @@ router.get("/shoes", async (req, res) => {
       .populate({ path: "category", select: "name" })
       .lean()
       .exec();
-    console.log(products);
+    // console.log(products);
     let shoesArr = [];
     for (let i = 0; i < products.length; i++) {
       let cur = products[i];
@@ -140,6 +311,58 @@ router.get("/shoes", async (req, res) => {
       }
     }
     // console.log({ shoesProducts: shoesArr });
+
+    return res.status(201).send(shoesArr);
+  } catch (e) {
+    return res.status(500).send(e.message);
+  }
+});
+
+//shoes Sorting
+
+//high to low
+router.get("/shoes/high_low", async (req, res) => {
+  try {
+    const products = await Product.find()
+      .sort({ p: -1 })
+      .populate({ path: "category", select: "name" })
+      .lean()
+      .exec();
+    // console.log(products);
+    let shoesArr = [];
+    for (let i = 0; i < products.length; i++) {
+      let cur = products[i];
+      for (j in cur) {
+        if (cur[j].name == "shoes") {
+          shoesArr.push(cur);
+        }
+      }
+    }
+
+    return res.status(201).send(shoesArr);
+  } catch (e) {
+    return res.status(500).send(e.message);
+  }
+});
+
+//high to low
+router.get("/shoes/low_high", async (req, res) => {
+  try {
+    const products = await Product.find()
+      .sort({ p: 1 })
+      .populate({ path: "category", select: "name" })
+      .lean()
+      .exec();
+    // console.log(products);
+    let shoesArr = [];
+    for (let i = 0; i < products.length; i++) {
+      let cur = products[i];
+      for (j in cur) {
+        if (cur[j].name == "shoes") {
+          shoesArr.push(cur);
+        }
+      }
+    }
 
     return res.status(201).send(shoesArr);
   } catch (e) {
