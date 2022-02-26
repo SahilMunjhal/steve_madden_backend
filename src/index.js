@@ -106,7 +106,7 @@ app.post("/api/payment/verify", (req, res) => {
   res.send(response);
 });
 
-app.listen(2345, async (req, res) => {
+app.listen(port, async (req, res) => {
   try {
     await connect();
     console.log(`Listening to PORT ${port} steve_madden project`);
