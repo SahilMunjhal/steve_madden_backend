@@ -4,7 +4,7 @@ const Razorpay = require("razorpay");
 
 app.use(express.json());
 
-const port = process.env.PORT || 7896;
+const port = process.env.PORT || 2345;
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -15,6 +15,9 @@ app.use(function (req, res, next) {
   next();
 });
 
+const cartController = require("./controllers/cart.controller");
+const { register, login, newToken } = require("./controllers/user.auth");
+const passport = require("./configs/google-oath");
 const connect = require("./configs/db");
 const categoryController = require("./controllers/category.controller");
 const productController = require("./controllers/product.controller");
@@ -23,6 +26,35 @@ const OrderDetails = require("./models/orderDetails.model");
 
 app.use("/categories", categoryController);
 app.use("/products", productController);
+app.use("/cartsdata", cartController);
+app.post("/register", register);
+app.post("/login", login);
+
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
+);
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    successRedirect: "http://localhost:5501/index.html",
+    failureRedirect: "/auth/google/failure",
+  }),
+  (req, res) => {
+    const { user } = req;
+    const token = newToken(user);
+    return res.status(203).send({ name: req.user.name, token });
+  }
+);
+
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
 
 var instance = new Razorpay({
   key_id: "rzp_test_VsoO9BEK2erzgZ",
@@ -74,7 +106,7 @@ app.post("/api/payment/verify", (req, res) => {
   res.send(response);
 });
 
-app.listen(port, async (req, res) => {
+app.listen(2345, async (req, res) => {
   try {
     await connect();
     console.log(`Listening to PORT ${port} steve_madden project`);
